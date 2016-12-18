@@ -1,0 +1,18 @@
+﻿<Window x:Class="MotorDriver_VComTool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MotorDriver_VComTool"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="480" Width="640" Initialized="WindowInit" Closing="WindowClosing">
+    <Grid>
+        <TextBox x:Name="textBox_Result" HorizontalAlignment="Left" Height="163" Margin="90,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="532" IsReadOnly="True" IsUndoEnabled="False" VerticalScrollBarVisibility="Auto"/>
+        <TextBox x:Name="textBox_Command" HorizontalAlignment="Left" Height="23" Margin="90,11,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="423" MaxLines="1"/>
+        <Button x:Name="button_Send" Content="Send" HorizontalAlignment="Left" Margin="547,14,0,0" VerticalAlignment="Top" Width="75" Click="Send_Button_Clicked"/>
+        <Button x:Name="button_Open" Content="Open" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Width="75" Click="Open_Button_Clicked"/>
+        <Label x:Name="label" Content="COM" HorizontalAlignment="Left" Margin="10,9,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox_PortNum" HorizontalAlignment="Left" Height="23" Margin="47,11,0,0" VerticalAlignment="Top" Width="38" MaxLines="1" MaxLength="3"/>
+
+    </Grid>
+</Window>
