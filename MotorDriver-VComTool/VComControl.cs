@@ -48,21 +48,22 @@ namespace MotorDriver_VComTool
         //COMポートを閉じる
         public void Stop()
         {
-            if (receiveThread != null) receiveThread.Abort();
-            receiveThread = null;
             if (myPort != null) myPort.Close();
             myPort = null;
             connected = false;
+            if (receiveThread != null) receiveThread.Join();
+            receiveThread = null;
         }
 
         //受信データ取得ループ
         public static void Receive(object target)
         {
             VComControl my = target as VComControl;
-            while (true)
+            while (my.isConnected())
             {
                 try {
                     my.ReceiveData();
+                    Thread.Sleep(10);
                 }
                 catch (Exception)
                 {
@@ -70,9 +71,7 @@ namespace MotorDriver_VComTool
                     if (my.myPort != null) my.myPort.Close();
                     my.myPort = null;
                     my.connected = false;
-                    break;
                 }
-                Thread.Sleep(50);
             }
         }
 
