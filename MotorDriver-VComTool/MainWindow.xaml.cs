@@ -59,7 +59,7 @@ namespace MotorDriver_VComTool
                 VCom.Send(command);
 
                 if (commandHistory.Count == 0
-                    || !commandHistory[commandHistory.Count - 1].Equals(command))
+                    || !commandHistory[commandHistory.Count - 1].Equals(textBox_Command.Text))
                 {
                     commandHistory.Add(textBox_Command.Text);
                 }
