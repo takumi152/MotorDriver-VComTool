@@ -7,12 +7,46 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="480" Width="640" Initialized="WindowInit" Closing="WindowClosing">
     <Grid>
-        <TextBox x:Name="textBox_Result" HorizontalAlignment="Left" Height="163" Margin="90,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="532" IsReadOnly="True" IsUndoEnabled="False" VerticalScrollBarVisibility="Auto"/>
-        <TextBox x:Name="textBox_Command" HorizontalAlignment="Left" Height="23" Margin="90,11,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="423" MaxLines="1"/>
+        <TextBox x:Name="textBox_Result" HorizontalAlignment="Left" Height="163" Margin="200,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="422" IsReadOnly="True" IsUndoEnabled="False" VerticalScrollBarVisibility="Auto"/>
+        <TextBox x:Name="textBox_Command" HorizontalAlignment="Left" Height="23" Margin="200,11,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="342" MaxLines="1" PreviewKeyDown="Command_KeyDown"/>
         <Button x:Name="button_Send" Content="Send" HorizontalAlignment="Left" Margin="547,14,0,0" VerticalAlignment="Top" Width="75" Click="Send_Button_Clicked"/>
-        <Button x:Name="button_Open" Content="Open" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Width="75" Click="Open_Button_Clicked"/>
-        <Label x:Name="label" Content="COM" HorizontalAlignment="Left" Margin="10,9,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox_PortNum" HorizontalAlignment="Left" Height="23" Margin="47,11,0,0" VerticalAlignment="Top" Width="38" MaxLines="1" MaxLength="3"/>
+        <Button x:Name="button_Open" Content="Open" HorizontalAlignment="Left" Margin="120,163,0,0" VerticalAlignment="Top" Width="75" Click="Open_Button_Clicked"/>
+        <ComboBox x:Name="comboBox_ComPort" HorizontalAlignment="Left" Margin="74,12,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="comboBox_BaudRate" HorizontalAlignment="Left" Margin="74,43,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="7">
+            <ComboBoxItem Content="1200"/>
+            <ComboBoxItem Content="2400"/>
+            <ComboBoxItem Content="4800"/>
+            <ComboBoxItem Content="9600"/>
+            <ComboBoxItem Content="19200"/>
+            <ComboBoxItem Content="38400"/>
+            <ComboBoxItem Content="57600"/>
+            <ComboBoxItem Content="115200"/>
+            <ComboBoxItem Content="230400"/>
+        </ComboBox>
+        <ComboBox x:Name="comboBox_Parity" HorizontalAlignment="Left" Margin="74,74,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0">
+            <ComboBoxItem Content="None"/>
+            <ComboBoxItem Content="Odd"/>
+            <ComboBoxItem Content="Even"/>
+            <ComboBoxItem Content="Mark"/>
+            <ComboBoxItem Content="Space"/>
+        </ComboBox>
+        <ComboBox x:Name="comboBox_DataBits" HorizontalAlignment="Left" Margin="74,105,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="4">
+            <ComboBoxItem Content="4"/>
+            <ComboBoxItem Content="5"/>
+            <ComboBoxItem Content="6"/>
+            <ComboBoxItem Content="7"/>
+            <ComboBoxItem Content="8"/>
+        </ComboBox>
+        <ComboBox x:Name="comboBox_StopBits" HorizontalAlignment="Left" Margin="74,136,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0">
+            <ComboBoxItem Content="1"/>
+            <ComboBoxItem Content="1.5"/>
+            <ComboBoxItem Content="2"/>
+        </ComboBox>
+        <Label x:Name="label1" Content="Com Port" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label2" Content="Baud Rate" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label3" Content="Parity" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label4" Content="Data Bits" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label5" Content="Stop Bits" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

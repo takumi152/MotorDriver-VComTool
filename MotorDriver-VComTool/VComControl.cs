@@ -20,23 +20,21 @@ namespace MotorDriver_VComTool
             window = caller;
         }
 
+        public string[] GetPortList()
+        {
+            return SerialPort.GetPortNames();
+        }
+
         //COMポートを開く
         //成功したらtrue、失敗したらfalse
-        public bool Start(int portNum)
+        public bool Start(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
         {
-            string portName = "COM" + portNum;
-            int baudRate = 115200;
-            Parity parity = Parity.None;
-            int dataBits = 8;
-            StopBits stopBits = StopBits.One;
-
             try {
                 myPort = new SerialPort(portName, baudRate, parity, dataBits, stopBits);
                 myPort.Open();
 
                 receiveThread = new Thread(VComControl.Receive);
                 receiveThread.Start(this);
-
                 connected = true;
             }
             catch (Exception){

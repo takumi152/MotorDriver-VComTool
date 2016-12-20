@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO.Ports;
 
 namespace MotorDriver_VComTool
 {
@@ -23,6 +24,8 @@ namespace MotorDriver_VComTool
     {
 
         VComControl VCom = null;
+        List<string> commandHistory = new List<string>();
+        int historyIndex = 0;
 
         public MainWindow()
         {
@@ -34,6 +37,10 @@ namespace MotorDriver_VComTool
         {
             VCom = new VComControl(this);
             VCom.DataReceived += WriteData; 
+            foreach(string portName in VCom.GetPortList())
+            {
+                comboBox_ComPort.Items.Add(portName);
+            }
         }
 
         //受信したデータの書き込み
@@ -50,6 +57,14 @@ namespace MotorDriver_VComTool
             {
                 string command = textBox_Command.Text + "\r";
                 VCom.Send(command);
+
+                if (commandHistory.Count == 0
+                    || !commandHistory[commandHistory.Count - 1].Equals(command))
+                {
+                    commandHistory.Add(textBox_Command.Text);
+                }
+                textBox_Command.Clear();
+                historyIndex = commandHistory.Count;
             }
         }
 
@@ -58,9 +73,12 @@ namespace MotorDriver_VComTool
         {
             if (!VCom.isConnected())
             {
-                int portNum;
-                int.TryParse(textBox_PortNum.Text, out portNum);
-                if (VCom.Start(portNum))
+                if (VCom.Start(
+                    comboBox_ComPort.SelectionBoxItem.ToString(),
+                    int.Parse(comboBox_BaudRate.SelectionBoxItem.ToString()),
+                    GetParityCode(comboBox_Parity.SelectionBoxItem.ToString()),
+                    int.Parse(comboBox_DataBits.SelectionBoxItem.ToString()),
+                    GetStopBitsCode(comboBox_StopBits.SelectionBoxItem.ToString())))
                 {
                     button_Open.Content = "Close";
                 }
@@ -69,6 +87,48 @@ namespace MotorDriver_VComTool
             {
                 VCom.Stop();
                 button_Open.Content = "Open";
+            }
+        }
+
+        private Parity GetParityCode(string parityString)
+        {
+            if (parityString.Equals("None")) return Parity.None;
+            else if (parityString.Equals("Odd")) return Parity.Odd;
+            else if (parityString.Equals("Even")) return Parity.Even;
+            else if (parityString.Equals("Mark")) return Parity.Mark;
+            else if (parityString.Equals("Space")) return Parity.Space;
+            else return Parity.None; // Unknown parity
+        }
+
+        private StopBits GetStopBitsCode(string stopBitsString)
+        {
+            if (stopBitsString.Equals("1")) return StopBits.One;
+            else if (stopBitsString.Equals("1.5")) return StopBits.OnePointFive;
+            else if (stopBitsString.Equals("2")) return StopBits.Two;
+            else return StopBits.One; // Unknown stop bits
+        }
+
+        //テキストボックス内で何かキーを打ち込んだ時の処理
+        private void Command_KeyDown(object sender, KeyEventArgs e)
+        {
+            Key pressedKey = e.Key;
+            if (pressedKey == Key.Enter) Send_Button_Clicked(sender, e);
+            if (pressedKey == Key.Up)
+            {
+                if (historyIndex > 0)
+                {
+                    historyIndex--;
+                    if (commandHistory.Count != 0) textBox_Command.Text = commandHistory[historyIndex];
+                }
+            }
+            if (pressedKey == Key.Down)
+            {
+                if (historyIndex < commandHistory.Count)
+                {
+                    historyIndex++;
+                    if (historyIndex < commandHistory.Count) textBox_Command.Text = commandHistory[historyIndex];
+                    else textBox_Command.Clear();
+                }
             }
         }
 
