@@ -46,8 +46,16 @@ namespace MotorDriver_VComTool
         //受信したデータの書き込み
         public void WriteData(byte[] data)
         {
-            textBox_Result.Text += Encoding.ASCII.GetString(data);
+            StringBuilder sb = new StringBuilder();
+            sb.Append(textBox_Result.Text);
+            sb.Append(Encoding.ASCII.GetString(data));
+            if (sb.Length > 5000)
+            {
+                sb.Remove(0, sb.Length - 5000);
+            }
+            textBox_Result.Text = sb.ToString();
             textBox_Result.ScrollToEnd();
+            sb = null;
         }
 
         //Send(送信)ボタンを押したときの処理
@@ -58,8 +66,8 @@ namespace MotorDriver_VComTool
                 string command = textBox_Command.Text + "\r";
                 VCom.Send(command);
 
-                if (commandHistory.Count == 0
-                    || !commandHistory[commandHistory.Count - 1].Equals(textBox_Command.Text))
+                if ((commandHistory.Count == 0 || !commandHistory[commandHistory.Count - 1].Equals(textBox_Command.Text))
+                    && textBox_Command.Text.Length != 0)
                 {
                     commandHistory.Add(textBox_Command.Text);
                 }
